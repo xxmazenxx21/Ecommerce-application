@@ -1,5 +1,6 @@
 // import { IsEmail, IsEnum, IsInt, IsPositive, IsString,  Length } from "class-validator";
 import { genderEnum, providerEnum, roleEnum } from 'src/common/enums/enum';
+import { otp } from 'src/DB/models/otp.model';
 import z from 'zod';
 
 
@@ -52,3 +53,60 @@ provider : z.enum(providerEnum).optional(),
 
 
 export type SignUpDto = z.infer<typeof signUpSchema>
+
+
+
+
+
+export const resendOtpSchema =z.strictObject({
+
+email:z.email(),
+
+
+})
+
+
+export type ResendotpDto = z.infer<typeof resendOtpSchema>
+
+
+
+
+
+
+export const confirmEmailSchema =z.strictObject({
+
+email:z.email(),
+otp:z.string()
+
+
+})
+
+
+export type ConfirmEmailDto = z.infer<typeof confirmEmailSchema>
+
+
+
+
+
+
+
+
+
+
+export const loginSchema =z.strictObject({
+
+email:z.email(),
+password:z.string()
+
+
+})
+
+
+export type LoginDto = z.infer<typeof loginSchema>
+
+
+
+
+
+
+

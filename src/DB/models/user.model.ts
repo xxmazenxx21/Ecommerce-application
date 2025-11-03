@@ -2,6 +2,7 @@ import { MongooseModule, Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mo
 import { HydratedDocument, Mongoose } from 'mongoose';
 import { genderEnum, providerEnum, roleEnum } from 'src/common/enums/enum';
 import { HashPlainText } from 'src/common/utils/security/hashing';
+import { otpDocument } from './otp.model';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -51,6 +52,8 @@ userName: string;
     confirmEmailOTP: string;
 @Prop({ type: Date})
     confirmEmail :Date;
+    @Virtual()
+    otp : otpDocument[];
 
 
 }
@@ -65,7 +68,12 @@ if(this.isModified('password')){
   next();
 });
 
+UserSchema.virtual('otp', {
+    ref: 'otp',
+    localField: '_id',
+    foreignField: 'createdBy',
 
+});
 
 
 

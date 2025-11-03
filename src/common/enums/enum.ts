@@ -14,3 +14,10 @@ SYSTEM='SYSTEM',
 GOOGLE='GOOGLE',
 
 }
+
+
+export enum  otpEnums {
+confirmEmail = "Confirmemail",
+forgetPassword = "ForgetPassword",
+
+}
