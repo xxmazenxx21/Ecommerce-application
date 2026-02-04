@@ -87,7 +87,6 @@ export class AuthService {
 
 
   async Login(loginDto: LoginDto) {
-
     const { email, password } = loginDto;
     const user = await this.userModel.findOne({ email, confirmEmail: { $exists: true } });
     if (!user)
@@ -97,26 +96,41 @@ export class AuthService {
       throw new BadRequestException('password is incorrect');
     const jwtid = randomUUID();
 
-    const accessToken = await this.jwtService.sign({ id: user._id, email: user.email }, {
-      secret: process.env.ACCESS_TOKEN_SECRET,
-      expiresIn: Number(process.env.ACCESS_TOKEN_EXPIRES_IN),
-      jwtid
-    },)
+    const accessToken = await this.jwtService.sign(
+      { id: user._id, email: user.email } as any,
+      {
+        secret: process.env.ACCESS_TOKEN_SECRET as string,
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN as any,
+        jwtid,
+      },
+    );
 
+    const refreshToken = await this.jwtService.sign(
+      { id: user._id, email: user.email } as any,
+      {
+        secret: process.env.REFRESH_TOKEN_SECRET as string,
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN as any,
+        jwtid,
+      },
 
-    const refreshToken = await this.jwtService.sign({ id: user._id }, {
-      secret: process.env.REFRESH_TOKEN_SECRET,
-      expiresIn: Number(process.env.REFRESH_TOKEN_EXPIRES_IN),
-      jwtid
-    })
-
-
+    );
 
     return { mesage: "login  successfully", credentials: { accessToken, refreshToken } };
 
 
+  }
+
+
+
+     profile(req: any) {
+    
+
+    return { mesage: "profile get successfully",data:req.user };
+
 
   }
+
+
 
 
 

@@ -21,3 +21,13 @@ confirmEmail = "Confirmemail",
 forgetPassword = "ForgetPassword",
 
 }
+export enum orderStatusEnum {
+  PENDING = 'pending',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled',
+}
+
+export enum paymentMethodEnum {
+  CASH = 'CASH',
+  ONLINE = 'ONLINE',
+}
