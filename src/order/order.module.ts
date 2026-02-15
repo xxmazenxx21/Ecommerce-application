@@ -6,6 +6,7 @@ import { Order, orderSchema } from 'src/DB/models/order.model';
 import { Cart, cartSchema } from 'src/DB/models/Cart.model';
 import { JwtService } from '@nestjs/jwt';
 import { UserModule } from 'src/user/user.module';
+import { PaymentService } from 'src/common/services/payment/payment.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { UserModule } from 'src/user/user.module';
     MongooseModule.forFeature([{ name: Cart.name, schema: cartSchema }]),
   ],
   controllers: [OrderController],
-  providers: [OrderService, JwtService],
+  providers: [OrderService, JwtService,PaymentService],
 })
 export class OrderModule {}

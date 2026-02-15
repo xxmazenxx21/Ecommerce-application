@@ -3,6 +3,8 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from 'src/common/guards/auth.guards';
+import type { UserDocument } from 'src/DB/models/user.model';
+import { Types } from 'mongoose';
 
 
 @Controller('api/order')
@@ -17,23 +19,24 @@ export class OrderController {
     return this.orderService.create(cartid,address,userid);
   }
 
-  @Get()
-  findAll() {
-    return this.orderService.findAll();
+
+    @UseGuards(AuthGuard)
+  @Post('session/:orderid')
+  createCheckoutSession(@Param('orderid') orderid: Types.ObjectId,@Req() req,user:UserDocument) {
+    const userid = req.user._id;
+    const session =  this.orderService.createCheckoutSession(orderid,userid);
+    return session;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+
+
+      @UseGuards(AuthGuard)
+  @Post('refund/:orderid')
+  refundOrder(@Param('orderid') orderid: Types.ObjectId,@Req() req,user:UserDocument) {
+    const userid = req.user._id;
+    const refund =  this.orderService.refundOrder(orderid,userid);
+    return refund;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
-  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.orderService.remove(+id);
-  }
 }

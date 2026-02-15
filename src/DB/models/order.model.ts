@@ -70,6 +70,37 @@ address: string;
 
 
 
+@Prop({
+    type: String,
+
+
+
+  })
+intentId: string;
+
+
+
+
+@Prop({
+    type: String,
+
+
+
+  })
+refundId: string;
+
+
+
+@Prop({
+    type: Date,
+
+
+
+  })
+refundAt: Date;
+
+
+
 
 
 @Prop({
